@@ -1,10 +1,8 @@
-import { useState } from "react";
 import "./App.css";
 import { Canvas } from "react-three-fiber";
 import { Leva, useControls } from "leva";
 import { OrbitControls } from "@react-three/drei";
 function App() {
-  const [count, setCount] = useState(0);
   const { radius, boxRadius } = useControls({
     radius: 1,
     boxRadius: 0.25,
@@ -29,7 +27,7 @@ function App() {
           <boxBufferGeometry args={[boxRadius, boxRadius, boxRadius]} />
           <meshBasicMaterial color="red" />
         </mesh>
-        <OrbitControls />
+        <OrbitControls {...({} as any) /* react-three/drei+typescript bug */} />
       </Canvas>
       <div
         style={{
