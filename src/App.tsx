@@ -81,6 +81,7 @@ function Scene({
 
   // when one of the measures changes, position the camera on top of the sphere facing the box
   const { camera } = useThree();
+  const mounted = useMounted();
   useEffect(() => {
     if (!boxRef.current) return;
     const x = 0;
@@ -89,18 +90,18 @@ function Scene({
     const z = -boxWidthKm * 4;
     camera.position.set(x, y, z);
     camera.lookAt(boxRef.current.position);
-  }, [sphereRadiusKm, boxWidthKm, boxHeightAboveGroundKm]);
+  }, [sphereRadiusKm, boxWidthKm, boxHeightAboveGroundKm, mounted]);
 
+  // camera rotation
   const { cameraRotation } = useControls({
     cameraRotation: {
-      value: [10, 10],
+      value: [2, 2],
       joystick: "invertY",
     },
   });
-  // camera rotation
   useEffect(() => {
-    camera.rotation.set(cameraRotation[0], cameraRotation[1], 0);
-  }, []);
+    camera.rotation.set(cameraRotation[1], cameraRotation[0], 0);
+  }, [cameraRotation]);
 
   return (
     <>
@@ -133,4 +134,12 @@ function Scene({
 function getAngleOfHorizonAtScreenWidth(r: number, h: number) {
   const angle = (1 - r / (r + h)) ^ 2 ^ 0.5;
   return angle;
+}
+
+function useMounted() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  return mounted;
 }
