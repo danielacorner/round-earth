@@ -95,7 +95,7 @@ function Scene({
   // camera rotation
   const { cameraRotation } = useControls({
     cameraRotation: {
-      value: [2, 2],
+      value: [-3, 0],
       joystick: "invertY",
     },
   });
